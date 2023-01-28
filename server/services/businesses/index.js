@@ -36,7 +36,8 @@ export default class BusinessesService {
   }
 
   /**
-   * Insert search terms.
+   * Filter out data to minimize size down the wire. Only return values we need
+   * that drive the UI.
    * @param {businesses}
    * @return {formattedBusinesses}
    */

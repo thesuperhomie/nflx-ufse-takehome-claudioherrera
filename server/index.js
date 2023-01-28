@@ -22,13 +22,13 @@ const inMemoryCache = new LRU(LRU_CACHE_CONFIG);
 app.use(bodyParser.json());
 
 (async function () {
-  console.log("Creating tables...");
   // create services to serve requestss
   const db = new Database();
   const businessService = new BusinessesService(db);
   const autocompleteService = new AutocompleteService(db, businessService, inMemoryCache);
   try {
     // Create tables to initialize in memory DB.
+    console.debug("Creating tables...");
     await db.createTables();
     console.debug("Tables created...");
   } catch (error) {
@@ -39,7 +39,7 @@ app.use(bodyParser.json());
     console.log(`Server listening on port: ${PORT}...`);
 
     // Temporary fix for CORS proxy issue. Development only...
-    app.use(function (req, res, next) {
+    app.use((_, res, next) => {
       res.header("Access-Control-Allow-Origin", "http://localhost:3000");
       res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       next();

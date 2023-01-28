@@ -154,9 +154,8 @@ export default class Database {
   }
 
   /**
-   * Insert search terms.
-   * @param {searchTerms} searchTerms Search term data to add.
-   * @return {Promise<businesses>} The businesses inserted.
+   * Handle errors.
+   * @return {void>}
    */
   handleError(error) {
     this.db.close();
