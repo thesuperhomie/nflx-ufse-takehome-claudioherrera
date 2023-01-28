@@ -1,0 +1,46 @@
+{
+  "name": "nflx-ufse-takehome-claudioherrera",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "19",
+    "npm": "9.2"
+  },
+  "scripts": {
+    "test": "jest",
+    "client": "npm run start --prefix client",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "transpile": "babel ./server --out-dir dist-server",
+    "clean": "rimraf dist-server",
+    "build": "npm-run-all clean transpile",
+    "server": "node ./dist-server/index.js",
+    "dev": "NODE_ENV=development npm-run-all build server",
+    "install-all": "npm i && npm i --prefix client",
+    "app": "npm run build && npm run start"
+  },
+  "author": "Claudio Herrera",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "axios": "^1.2.5",
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2",
+    "lru-cache": "^7.14.1",
+    "rimraf": "^4.1.2",
+    "sqlite3": "^5.1.4"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "jest": "^29.4.1",
+    "nodemon": "^2.0.20",
+    "npm-run-all": "^4.1.5"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  }
+}
