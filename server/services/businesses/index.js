@@ -18,7 +18,7 @@ export default class BusinessesService {
   }
 
   /**
-   * Insert search terms.
+   * Insert businesses.
    * @param {Array<String>} categories Categories to query businesses on.
    * @return {Promise<businesses>} The businesses fetched from the categories.
    */
@@ -36,6 +36,30 @@ export default class BusinessesService {
         )
       );
       const businesses = dataArray.reduce((acc, response) => [...acc, ...response.data.businesses], []);
+      await this.db.insertBusinesses(businesses);
+      return this.mapToResultSet(businesses);
+    } catch (error) {
+      console.error(error);
+      return {};
+    }
+  }
+
+  /**
+   * Insert businesses.
+   * @param {Array<String>} categories Categories to query businesses on.
+   * @return {Promise<businesses>} The businesses fetched from the categories.
+   */
+  async fetchAndUpdateBusinessesForTerm(term) {
+    console.debug(`Making request for term: ${term}...`);
+    try {
+      const {
+        data: { businesses },
+      } = await axios.get(
+        `${ENV.YELP_BASE_URL}/businesses/search?term=${term}&location=${
+          LOCATIONS[Math.floor(Math.random() * LOCATIONS.length)]
+        }&sort_by=best_match&limit=20`,
+        AXIOS_CONFIG
+      );
       await this.db.insertBusinesses(businesses);
       return this.mapToResultSet(businesses);
     } catch (error) {

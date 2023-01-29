@@ -32,8 +32,10 @@ export default class AutocompleteService {
         data: { categories },
       } = await axios.get(url, AXIOS_CONFIG);
       await this.db.insertCategories(categories);
-      const mappedCategories = categories.map((category) => category.alias);
-      const businesses = await this.businessService.fetchAndUpdateBusinessesForCategories(mappedCategories);
+      // const mappedCategories = categories.map((category) => category.alias);
+      // Categories weren't working as planned
+      // const businesses = await this.businessService.fetchAndUpdateBusinessesForCategories(mappedCategories);
+      const businesses = await this.businessService.fetchAndUpdateBusinessesForTerm(text);
       this.cache.set(text, businesses);
       return businesses;
     } catch (error) {
