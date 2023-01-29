@@ -3,6 +3,8 @@ import { ENV, AXIOS_CONFIG } from "../../config";
 
 export const BUSINESS_KEYS = { name: true, image_url: true, url: true, rating: true, price: true, display_phone: true };
 
+const LOCATIONS = ["Los Angeles", "NYC", "San Francisco", "DC", "Chicago"];
+
 /**
  * Service used to get business data from the Yelp API and
  * delegate data updates via the database service through composition.
@@ -21,12 +23,19 @@ export default class BusinessesService {
    * @return {Promise<businesses>} The businesses fetched from the categories.
    */
   async fetchAndUpdateBusinessesForCategories(categories) {
-    const url = `${ENV.YELP_BASE_URL}/businesses/search?cateogries=${categories.join(",")}&${ENV.DEFAULT_LAT_LNG}`;
-    console.debug(`Making request to: ${url}...`);
+    console.debug(`Making requests for categories: ${categories.join(",")}...`);
     try {
-      const {
-        data: { businesses },
-      } = await axios.get(url, AXIOS_CONFIG);
+      const dataArray = await Promise.all(
+        categories.map((category) =>
+          axios.get(
+            `${ENV.YELP_BASE_URL}/businesses/search?cateogries=${category}&term=restaurants&location=${
+              LOCATIONS[Math.floor(Math.random() * LOCATIONS.length)]
+            }&sort_by=best_match&limit=20`,
+            AXIOS_CONFIG
+          )
+        )
+      );
+      const businesses = dataArray.reduce((acc, response) => [...acc, ...response.data.businesses], []);
       await this.db.insertBusinesses(businesses);
       return this.mapToResultSet(businesses);
     } catch (error) {

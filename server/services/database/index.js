@@ -68,8 +68,6 @@ export default class Database {
   insertBusinesses(businesses) {
     return new Promise((resolve, reject) => {
       try {
-        console.debug("Beginning transaction...");
-        this.db.run("BEGIN TRANSACTION;");
         businesses.forEach((business) => {
           this.db.run(
             "INSERT OR IGNORE INTO businesses (name, image_url, url, rating, price, display_phone) VALUES (?, ?, ?, ?, ?, ?)",
@@ -88,8 +86,6 @@ export default class Database {
             }
           );
         });
-        this.db.run("END;");
-        console.debug("Transaction success...");
         resolve(businesses);
       } catch (error) {
         reject(error);
@@ -105,8 +101,6 @@ export default class Database {
   insertCategories(categories) {
     return new Promise((resolve, reject) => {
       try {
-        this.db.run("BEGIN TRANSACTION;");
-        console.debug("Beginning transaction...");
         categories.forEach((category) => {
           this.db.run(
             "INSERT OR IGNORE INTO categories (alias, title) VALUES (?, ?)",
@@ -118,8 +112,6 @@ export default class Database {
             }
           );
         });
-        this.db.run("END;");
-        console.debug("Transaction success...");
         resolve(categories);
       } catch (error) {
         reject(error);
@@ -135,8 +127,6 @@ export default class Database {
   insertSearchTerms(searchTerms) {
     return new Promise((resolve, reject) => {
       try {
-        this.db.run("BEGIN TRANSACTION;");
-        console.debug("Beginning transaction...");
         searchTerms.forEach((searchTerm) => {
           this.db.run("INSERT OR IGNORE INTO search_terms (term) VALUES (?)", [searchTerm["term"]], function (error) {
             if (error != null) {
@@ -144,8 +134,6 @@ export default class Database {
             }
           });
         });
-        this.db.run("END;");
-        console.debug("Transaction success...");
         resolve(searchTerms);
       } catch (error) {
         reject(error);

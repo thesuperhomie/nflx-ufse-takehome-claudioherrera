@@ -24,11 +24,9 @@ class App extends Component {
           resolve();
         }, 500);
       });
-      const {
-        data: { businesses: initialBusinesses },
-      } = await new Promise((resolve) => {
-        initializeAppData().then((data) => {
-          resolve(data);
+      const initialBusinesses = await new Promise((resolve) => {
+        initializeAppData().then((response) => {
+          resolve(response.data || []);
         });
       });
       this.setState({ initialBusinesses, loading: false, hasInitializedData: true, error: null });

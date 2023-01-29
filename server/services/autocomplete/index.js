@@ -25,7 +25,7 @@ export default class AutocompleteService {
       console.debug(`Cache hit for searh: ${text}`);
       return this.cache.get(text);
     }
-    const url = `${ENV.YELP_BASE_URL}/autocomplete?text=${text}&${ENV.DEFAULT_LAT_LNG}`;
+    const url = `${ENV.YELP_BASE_URL}/autocomplete?text=${text}`;
     console.debug(`Making request to: ${url}...`);
     try {
       const {

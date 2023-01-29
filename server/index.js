@@ -49,7 +49,7 @@ app.use(bodyParser.json());
     // fetch the relevant businesses. The main endpoint.
     app.post("/api/autocomplete", async (req, res) => {
       // Need to add validation
-      const text = req.body.text || "del";
+      const text = req.body.text;
       const businesses = await autocompleteService.fetchCategoriesForTextAndFindBusinesses(text);
       res.send(businesses);
     });

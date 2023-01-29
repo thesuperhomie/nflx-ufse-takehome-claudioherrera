@@ -7,8 +7,7 @@ import axios from "axios";
  */
 export const callAutocompleteApi = async (text) => {
   try {
-    const { data } = await axios.post("http://localhost:8000/api/autocomplete", { text });
-    return data;
+    return axios.post("http://localhost:8000/api/autocomplete", { text });
   } catch (error) {
     console.error(error);
   }
@@ -20,8 +19,7 @@ export const callAutocompleteApi = async (text) => {
  */
 export const initializeAppData = async () => {
   try {
-    const { data } = await axios.post("http://localhost:8000/api/businesses");
-    return data;
+    return await axios.post("http://localhost:8000/api/businesses");
   } catch (error) {
     console.error(error);
   }

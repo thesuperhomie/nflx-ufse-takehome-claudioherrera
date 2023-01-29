@@ -12,10 +12,8 @@ class Body extends Component {
   handleSearchUpdate = async (text) => {
     this.setState({ loading: true });
     try {
-      const {
-        data: { businesses },
-      } = await callAutocompleteApi(text);
-      this.setState({ loading: false, businesses });
+      const { data } = await callAutocompleteApi(text);
+      this.setState({ loading: false, businesses: data || [] });
     } catch (error) {
       this.setState({ loading: false, businesses: [] });
     }
