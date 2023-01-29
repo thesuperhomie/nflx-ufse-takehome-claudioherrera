@@ -23,12 +23,14 @@ You will need Git to be able to pull the app source code to your local. Please f
 ## Install
 
 `$ git clone https://github.com/thesuperhomie/nflx-ufse-takehome-claudioherrera`
+
 `$ cd nflx-ufse-takehome-claudioherrera`
+
 `$ npm run install-all`
 
 ## Running the project
 
-    $ npm run app
+`$ npm run app`
 
 ## Project Write-Up
 
